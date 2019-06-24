@@ -1,4 +1,5 @@
 var HarvesterBehavior = require('HarvesterBehavior');
+var AutoSpawner = require("AutoSpawner");
 
 const BEHAVIORS = {
     'harvester': new HarvesterBehavior()
@@ -9,6 +10,9 @@ function IsDead(creep) {
 }
 
 module.exports.loop = function() {
+    // handle spawning code first
+    AutoSpawner.run();
+
     // update all the creeps 
     for (let name in Game.creeps) {
         let creep = Game.creeps[name];
