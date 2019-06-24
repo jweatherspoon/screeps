@@ -66,8 +66,8 @@ class BaseCreep {
      */
     async spawn() {
         console.log("Parts cost:", this.Parts.Cost);
-        console.log("Parent's energy:", this._parent.energyAvailable);
-        if (!this._creep && this._parent.energyAvailable < this.Parts.Cost) {
+        console.log("Parent's energy:", this._parent.PercentLoad);
+        if (!this._creep && !this._parent.IsFull) {
             let attempt = this._parent.Spawn.spawnCreep(this.PartsArray, this._name);
             switch (attempt) {
                 case OK:
