@@ -17,8 +17,8 @@ class HarvesterBehavior extends ScreepBehavior {
      * Transfer's 1 unit of this creep's energy to spawn or moves 1 space to spawn
      */
     transferPayloadToSpawn(creep) {
-        if (creep.transfer(this._parent, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(this._parent);
+        if (creep.transfer(this.findClosestSpawn(), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(this.findClosestSpawn());
         }
     }
 

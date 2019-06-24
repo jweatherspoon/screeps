@@ -74,6 +74,14 @@ class ScreepBehavior {
     findClosestEnergySource() {
         let source = this.findEnergy();
     }
+
+    /**
+     * Find the closest spawn 
+     * TODO: actually implement distance checking
+     */
+    findClosestSpawn() {
+        return Game.spawns.Spawn1;
+    }
 }
 
 module.exports = ScreepBehavior;
