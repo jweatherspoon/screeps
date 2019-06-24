@@ -1,4 +1,6 @@
-class HarvesterBehavior extends Behavior {
+var ScreepBehavior = require("ScreepBehavior");
+
+class HarvesterBehavior extends ScreepBehavior {
     /**
      * Harvest some energy or move to the first energy source in the room
      * TODO: Set to closest source 
@@ -33,3 +35,5 @@ class HarvesterBehavior extends Behavior {
         }
     }
 }
+
+module.exports = HarvesterBehavior;
