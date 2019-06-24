@@ -13,6 +13,13 @@ class BaseCreep {
     }
 
     /**
+     * @var {Creep} Creep the creep this object models
+     */
+    get Creep() {
+        return Game.creeps[this.Name];
+    }
+
+    /**
      * @var {boolean} IsAlive whether or not the creep is alive
      */
     get IsAlive() {
@@ -37,11 +44,11 @@ class BaseCreep {
      * @var {float} PercentLoad The utilized percentage of the creep's current carry weight capacity
      */
     get PercentLoad() {
-        if (!this._creep) {
+        if (!this.Creep) {
             return 0;
         }
 
-        return this._creep.carry.energy / this._creep.carryCapacity;
+        return this.Creep.carry.energy / this.Creep.carryCapacity;
     }
 
     /**
@@ -57,7 +64,6 @@ class BaseCreep {
         this.setParts(parts);
 
         this._isAlive = false;
-        this._creep = null;
     }
 
     /**
@@ -65,16 +71,12 @@ class BaseCreep {
      * @async
      */
     async spawn() {
-        console.log("Parts cost:", this.Parts.Cost);
-        console.log("Parent's energy:", this._parent.PercentLoad);
-        if (!this._creep && !this._parent.IsFull) {
+        if (!this.Creep && !this._parent.IsFull) {
             let attempt = this._parent.Spawn.spawnCreep(this.PartsArray, this._name);
             switch (attempt) {
                 case OK:
-                    console.log()
-                    this._creep = Game.creeps[this._name];
                     await (async () => {
-                        while (this._creep.spawning);
+                        while (this.Creep.spawning) ;
                     });
                     this._isAlive = true;
                     return true;
@@ -87,16 +89,16 @@ class BaseCreep {
 
     /**
      * Kill the creep
-     * @param {boolean shouldRenew If set to true, the creep will make an attempt to be recycled by its spawner
+     * @param {boolean} shouldRenew If set to true, the creep will make an attempt to be recycled by its spawner
      * @async
      */
     async kill(shouldRenew = true) {
-        if (this._creep) {
+        if (this.Creep) {
             // Move back to the root spawner to recycle 
             if (shouldRenew) {
                 await (async () => {
                     while (true) {
-                        let attempt = this._parent.Spawn.recycleCreep(this._creep);
+                        let attempt = this._parent.Spawn.recycleCreep(this.Creep);
 
                         switch (attempt) {
                             case OK:
@@ -113,9 +115,8 @@ class BaseCreep {
                 });
             }
 
-            this._creep.suicide();
-            Memory.creeps.clear(this._creep.Name);
-            this._creep = null;
+            this.Creep.suicide();
+            Memory.creeps.clear(this.Creep.Name);
         }
     }
 
@@ -156,7 +157,7 @@ class BaseCreep {
      * @returns 
      */
     findStructuresOfType(types, areDepleted = false) {
-        return this._creep.room.find(FIND_STRUCTURES, {
+        return this.Creep.room.find(FIND_STRUCTURES, {
             filter: structure => {
                 let success = (match = !(types instanceof Array) ? (types == structure.structureType) :
                     types.reduce((t, cond) => cond || t == structure.structureType));
@@ -172,11 +173,11 @@ class BaseCreep {
      * @returns 
      */
     findSources() {
-        if (!this._creep) {
+        if (!this.Creep) {
             return [];
         }
 
-        return this._creep.room.find(FIND_SOURCES);
+        return this.Creep.room.find(FIND_SOURCES);
     }
 
     /**
