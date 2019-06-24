@@ -27,6 +27,16 @@ class AutoSpawner {
         this._spawner.spawnCreep(parts, `${role}-${Date.now()}`, { memory: { role } });
     }
 
+    roleExists(role) {
+        for (name in Game.creeps) {
+            let creep = Game.creeps[name];
+            if (creep.memory.role == role) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     run() {
         for (let name in Game.spawns) {
             this._spawner = Game.spawns[name];
