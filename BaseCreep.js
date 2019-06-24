@@ -37,6 +37,10 @@ class BaseCreep {
      * @var {float} PercentLoad The utilized percentage of the creep's current carry weight capacity
      */
     get PercentLoad() {
+        if (!this._creep) {
+            return 0;
+        }
+        
         return this._creep.carry.energy / this._creep.carryCapacity;
     }
 
@@ -152,10 +156,14 @@ class BaseCreep {
      */
     findStructuresOfType(types, areDepleted = false) {
         return this._creep.room.find(FIND_STRUCTURES, {
-            filter: structure => (match = !(types instanceof Array) ? (types == structure.structureType) :
-                types.reduce((t, cond) => cond || t == structure.structureType)
-            )
-        })
+            filter: structure => {
+                let success = (match = !(types instanceof Array) ? (types == structure.structureType) :
+                    types.reduce((t, cond) => cond || t == structure.structureType));
+                if (areDepleted) {
+                    success = success && structure.energy < structure.energyCapacity;
+                }
+            }
+        });
     }
 
     /**
