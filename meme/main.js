@@ -4,6 +4,10 @@ const BEHAVIORS = {
     'harvester': new HarvesterBehavior()
 }
 
+function IsDead(creep) {
+    return (creep.ticksToLive <= 0 || creep.hits <= 0);
+}
+
 module.exports.loop = function() {
     // update all the creeps 
     for (let name in Game.creeps) {
