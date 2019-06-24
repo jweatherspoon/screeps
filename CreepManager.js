@@ -42,7 +42,7 @@ class CreepManager {
      */
     async createHarvester() {
         let harvester = new Harvester(this._parent, `Harvester-${Date.now()}`, [WORK, CARRY, MOVE]);
-        this.Creeps.push(harvester);
+        this._creeps.push(harvester);
         let success = await harvester.spawn();
         if (!success) {
             let err = new Error("Failed to create harvester.");

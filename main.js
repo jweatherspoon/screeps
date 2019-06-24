@@ -1,5 +1,5 @@
 var SpawnManager = require("SpawnManager");
-var Spawner = require("Spawn");
+var Spawner = require("Spawner");
 
 function BuildSpawnManager() {
     let spawnManager = new SpawnManager();
@@ -21,4 +21,9 @@ module.exports.loop = function () {
             console.log("Spawned harvester!", harvester);
         }).catch(err => console.log(`Failed to create harvester error code ${err}`));
     }
+
+    // Go through and update all the creeps
+    spawnManager.Spawns.forEach(spawn => {
+        spawn.CreepManager.Creeps.forEach(creep => creep.run());
+    });
 }
