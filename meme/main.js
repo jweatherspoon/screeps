@@ -1,7 +1,7 @@
 var HarvesterBehavior = require('HarvesterBehavior');
 
 const BEHAVIORS = {
-    'harvester': HarvesterBehavior
+    'harvester': new HarvesterBehavior()
 }
 
 module.exports.loop = function() {
