@@ -40,7 +40,7 @@ class BaseCreep {
         if (!this._creep) {
             return 0;
         }
-        
+
         return this._creep.carry.energy / this._creep.carryCapacity;
     }
 
@@ -55,7 +55,6 @@ class BaseCreep {
         this._name = name;
 
         this.setParts(parts);
-        console.log("parts", this.Parts.Parts);
 
         this._isAlive = false;
         this._creep = null;
@@ -66,11 +65,13 @@ class BaseCreep {
      * @async
      */
     async spawn() {
-        if (!this._creep/* && this._parent.energyAvailable < this.Parts.Cost*/) {
+        console.log("Parts cost:", this.Parts.Cost);
+        console.log("Parent's energy:", this._parent.energyAvailable);
+        if (!this._creep && this._parent.energyAvailable < this.Parts.Cost) {
             let attempt = this._parent.Spawn.spawnCreep(this.PartsArray, this._name);
-            console.log(attempt);
             switch (attempt) {
                 case OK:
+                    console.log()
                     this._creep = Game.creeps[this._name];
                     await (async () => {
                         while (this._creep.spawning);
@@ -172,7 +173,7 @@ class BaseCreep {
      */
     findSources() {
         if (!this._creep) {
-            return null;
+            return [];
         }
 
         return this._creep.room.find(FIND_SOURCES);
