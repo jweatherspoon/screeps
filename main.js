@@ -23,7 +23,7 @@ module.exports.loop = function () {
     }
 
     // Go through and update all the creeps
-    spawnManager.Spawns.forEach(spawn => {
+    spawnManager.SpawnsArray.forEach(spawn => {
         spawn.CreepManager.Creeps.forEach(creep => creep.run());
     });
 }
