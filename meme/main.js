@@ -1,8 +1,11 @@
 var HarvesterBehavior = require('HarvesterBehavior');
+var UpgraderBehavior = require("UpgraderBehavior");
+
 var AutoSpawner = require("AutoSpawner");
 
 const BEHAVIORS = {
-    'harvester': new HarvesterBehavior()
+    'harvester': new HarvesterBehavior(),
+    'upgrader': new UpgraderBehavior(),
 }
 
 function IsDead(creep) {

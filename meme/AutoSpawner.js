@@ -2,26 +2,44 @@
  * Auto spawning code
  */
 class AutoSpawner {
+    get ShouldSpawn() {
+        return this._spawner != null && 
+               (this._spawner.energy == this._spawner.energyCapacity);
+    }
+
     constructor() {
         this._spawner = null;
     }
 
+    spawnUpgrader() {
+         this.spawnByRole([WORK, CARRY, MOVE], "upgrader");
+    }
+
     spawnHarvester() {
+        this.spawnByRole([WORK, CARRY, MOVE], "harvester");
+    }
+
+    spawnByRole(parts, role) {
         if (!this._spawner) {
             return;
         }
 
-        this._spawner.spawnCreep([WORK, CARRY, MOVE], `Harvester-${Date.now()}`, {memory: {role: "harvester"}});
+        this._spawner.spawnCreep(parts, `${role}-${Date.now()}`, { memory: { role } });
     }
 
     run() {
         for (let name in Game.spawns) {
             this._spawner = Game.spawns[name];
 
-            if (this._spawner.energy == this._spawner.energyCapacity) {
-                this.spawnHarvester();
+            if (this.ShouldSpawn) {
+                if (!this.roleExists("upgrader")) {
+                    this.spawnUpgrader();
+                } else {
+                    this.spawnHarvester();
+                }
             }
         }
+        this._spawner = null;
     }
 }
 

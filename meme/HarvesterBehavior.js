@@ -5,20 +5,20 @@ class HarvesterBehavior extends ScreepBehavior {
      * Harvest some energy or move to the first energy source in the room
      * TODO: Set to closest source 
      */
-    harvest(creep) {
+    harvest() {
         // let source = this.findClosestSource();
-        let source = this.findEnergy(creep)[0];
-        if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(source);
+        let source = this.findEnergy()[0];
+        if (this._creep.harvest(source) === ERR_NOT_IN_RANGE) {
+            this._creep.moveTo(source);
         }
     }
 
     /**
      * Transfer's 1 unit of this creep's energy to spawn or moves 1 space to spawn
      */
-    transferPayloadToSpawn(creep) {
-        if (creep.transfer(this.findClosestSpawn(), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(this.findClosestSpawn());
+    transferPayloadToSpawn() {
+        if (this._creep.transfer(this.findClosestSpawn(), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            this._creep.moveTo(this.findClosestSpawn());
         }
     }
 
@@ -26,12 +26,14 @@ class HarvesterBehavior extends ScreepBehavior {
      * Update this creep
      */
     run(creep) {
-        if (creep.carry.energy < creep.carryCapacity && !creep.memory.unloading) {
-            this.harvest(creep);
+        this._creep = creep;
+        if (this._creep.carry.energy < this._creep.carryCapacity && !this._creep.memory.unloading) {
+            this.harvest();
         } else {
-            creep.memory.unloading = creep.carry.energy > 0;
-            this.transferPayloadToSpawn(creep);
+            this._creep.memory.unloading = this._creep.carry.energy > 0;
+            this.transferPayloadToSpawn();
         }
+        this._creep = null;
     }
 }
 

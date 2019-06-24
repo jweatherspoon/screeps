@@ -1,23 +1,27 @@
 class ScreepBehavior {
+    constructor() {
+        this._creep = null;
+    }
+
     /**
      * Kill the creep
      * @param {Creep} creep the creep to kill
      * @param {boolean} shouldRenew If set to true, the creep will make an attempt to be recycled by its spawner
      * @async
      */
-    async kill(creep, shouldRenew = true) {
-        if (creep) {
+    async kill(shouldRenew = true) {
+        if (this._creep) {
             // Move back to the root spawner to recycle 
             if (shouldRenew) {
                 await (async () => {
                     while (true) {
-                        let attempt = Game.spawns['Spawn1'].recycleCreep(creep);
+                        let attempt = Game.spawns['Spawn1'].recycleCreep(this._creep);
 
                         switch (attempt) {
                             case OK:
                                 return;
                             case ERR_NOT_IN_RANGE:
-                                this.moveToSpawn(creep);
+                                this.moveToSpawn(this._creep);
                             case ERR_NOT_OWNER:
                             case ERR_INVALID_TARGET:
                             case ERR_RCL_NOT_ENOUGH:
@@ -28,8 +32,8 @@ class ScreepBehavior {
                 });
             }
 
-            creep.suicide();
-            Memory.creeps.clear(creep.name);
+            this._creep.suicide();
+            Memory.creeps.clear(this._creep.name);
         }
     }
 
@@ -39,12 +43,12 @@ class ScreepBehavior {
      * @param {boolean} areDepleted Set to true to only find sources that are not at maximum energy
      * @returns 
      */
-    findStructuresOfType(creep, types, areDepleted = false) {
-        if (!creep) {
+    findStructuresOfType(types, areDepleted = false) {
+        if (!this._creep) {
             return [];
         }
         
-        return creep.room.find(FIND_STRUCTURES, {
+        return this._creep.room.find(FIND_STRUCTURES, {
             filter: structure => {
                 let success = (match = !(types instanceof Array) ? (types == structure.structureType) :
                     types.reduce((t, cond) => cond || t == structure.structureType));
@@ -59,12 +63,12 @@ class ScreepBehavior {
      * Find the energy sources in the room 
      * @returns 
      */
-    findEnergy(creep) {
-        if (!creep) {
+    findEnergy() {
+        if (!this._creep) {
             return [];
         }
 
-        return creep.room.find(FIND_SOURCES);
+        return this._creep.room.find(FIND_SOURCES);
     }
 
     /**
