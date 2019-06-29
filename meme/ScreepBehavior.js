@@ -84,7 +84,7 @@ class ScreepBehavior {
      * TODO: actually implement distance checking
      */
     findClosestSpawn() {
-        return Game.spawns.Spawn1;
+        return Game.spawns.Mother;
     }
 }
 
