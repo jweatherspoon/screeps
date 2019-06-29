@@ -3,7 +3,7 @@
  */
 class AutoSpawner {
     get ShouldSpawn() {
-        return this._spawner != null && 
+        return this._spawner != null && Game.creeps.length < 15
                (this._spawner.energy == this._spawner.energyCapacity);
     }
 
