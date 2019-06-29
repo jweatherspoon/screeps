@@ -1,5 +1,5 @@
 var HarvesterBehavior = require('HarvesterBehavior');
-var UpgraderBehavior = require("UpgraderBehavior");
+var UpgraderBehavior = require("savethecontroller");
 
 var AutoSpawner = require("AutoSpawner");
 

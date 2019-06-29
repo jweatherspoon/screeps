@@ -28,7 +28,7 @@ class AutoSpawner {
     }
 
     roleExists(role) {
-        for (name in Game.creeps) {
+        for (let name in Game.creeps) {
             let creep = Game.creeps[name];
             if (creep.memory.role == role) {
                 return true;

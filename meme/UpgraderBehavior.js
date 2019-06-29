@@ -1,8 +1,16 @@
 var ScreepBehavior = require("ScreepBehavior");
+var HarvesterBehavior = require("HarvesterBehavior");
 
 class UpgraderBehavior extends ScreepBehavior {
     run(creep) {
         this._creep = creep;
+
+        if (this._creep.energy < this._creep.carryCapacity && this._creep.isHarvesting) {
+            let harvester = new HarvesterBehavior();
+            harvester.run(this._creep);
+        } else {
+            this._creep.isHarvesting = false;
+        }
 
         if (this._creep.energy == 0) {
             this._creep.memory.role = "harvester";
