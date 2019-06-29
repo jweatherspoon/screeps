@@ -27,11 +27,14 @@ class AutoSpawner {
         this._spawner.spawnCreep(parts, `${role}-${Date.now()}`, { memory: { role } });
     }
 
-    roleExists(role) {
+    roleExists(role, numRoles = 1) {
         for (let name in Game.creeps) {
             let creep = Game.creeps[name];
             if (creep.memory.role == role) {
-                return true;
+                numRoles--;
+                if (numRoles === 0) {
+                    return true;
+                }
             }
         }
         return false;
@@ -42,7 +45,7 @@ class AutoSpawner {
             this._spawner = Game.spawns[name];
 
             if (this.ShouldSpawn) {
-                if (!this.roleExists("upgrader")) {
+                if (!this.roleExists("upgrader", 2)) {
                     this.spawnUpgrader();
                 } else {
                     this.spawnHarvester();
