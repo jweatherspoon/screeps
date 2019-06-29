@@ -7,7 +7,7 @@ class HarvesterBehavior extends ScreepBehavior {
      */
     harvest() {
         // let source = this.findClosestSource();
-        let source = this.findEnergy()[0];
+        let source = this.findEnergy()[1];
         if (this._creep.harvest(source) === ERR_NOT_IN_RANGE) {
             this._creep.moveTo(source);
         }
