@@ -1,4 +1,6 @@
-class UpgraderBehavior {
+var ScreepBehavior = require("ScreepBehavior");
+
+class UpgraderBehavior extends ScreepBehavior {
     get isMining() {
         return this._creep.memory.isMining;
     }
@@ -26,8 +28,8 @@ class UpgraderBehavior {
 
         // we are DELIVERING 
         if (!this.isMining) {
-            if (this._creep.transfer(Game.spawns.Spawn1, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                this._creep.moveTo(Game.spawns.Spawn1);
+            if (this._creep.transfer(this._creep.room.controller, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                this._creep.moveTo(this._creep.room.controller);
             }
         }
 
