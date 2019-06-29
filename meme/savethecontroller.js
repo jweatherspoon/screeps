@@ -24,7 +24,7 @@ class UpgraderBehavior extends ScreepBehavior {
 
         // If we aren't at full carry capacity we aren't mining 
         // But if we aren't mining and we have no energy then we gonna mine dawg 
-        this.isMining = (!this.isMining && this._creep.energy === 0) || this._creep.carry.energy < this._creep.carryCapacity;
+        this.isMining = (!this.isMining && this._creep.energy === 0) || (this._creep.carry.energy < this._creep.carryCapacity && this.isMining);
 
         // we are DELIVERING 
         if (!this.isMining) {
